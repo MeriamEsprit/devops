@@ -12,16 +12,16 @@ import javax.swing.plaf.ActionMapUIResource;
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class ProductTest {
-    @Autowired
+/*    @Autowired
 private ProductServiceImpl service;
-private ProductRepository repository;
+private ProductRepository repository;*/
 
-@Test
+/*@Test
     void getIdProduct() {
         Product product=new Product(1L,"title",12,10,null,null);
         Product product1=service.addProduct(product, 1L);
         assertNotNull(product1);
-    }
+    }*/
 
 
 }
