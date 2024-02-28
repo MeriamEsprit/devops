@@ -27,7 +27,6 @@ private OperatorServiceImpl service;
     operator.setIdOperateur(1L);
     operator.setFname("test");
            Mockito.when(repository.findById(1L)).thenReturn(Optional.of(operator));
-           Operator op=service.retrieveOperator(1L);
         // Act
         Operator retrievedOperator = service.retrieveOperator(1L);
 
@@ -36,8 +35,8 @@ private OperatorServiceImpl service;
         assertEquals(1L, retrievedOperator.getIdOperateur());
         assertEquals("test", retrievedOperator.getFname());
 
-    /*    // Verify interaction with the mocked repository
-        Mockito.verify(repository, Mockito.times(1)).findById(1L);*/
+        // Verify interaction with the mocked repository
+        Mockito.verify(repository, Mockito.times(1)).findById(1L);
 
     }
 }
