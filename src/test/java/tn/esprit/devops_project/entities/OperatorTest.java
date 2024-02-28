@@ -23,16 +23,18 @@ private OperatorRepository repository;
 private OperatorServiceImpl service;
     @Test
     public void retrieveOperator_ValidId_OperatorReturned(){
-    Operator operator=new Operator();
-    operator.setIdOperateur(1L);
-    operator.setFname("test");
-           Mockito.when(repository.findById(1L)).thenReturn(Optional.of(operator));
+        Operator operator = new Operator();
+        operator.setIdOperateur(1L);
+        operator.setFname("test");
+
+        Mockito.when(repository.findById(1L)).thenReturn(Optional.of(operator));
+
         // Act
         Operator retrievedOperator = service.retrieveOperator(1L);
 
         // Assert
         assertNotNull(retrievedOperator);
-        assertEquals(1L, retrievedOperator.getIdOperateur());
+        assertEquals(1L, retrievedOperator.getIdOperateur()); // Improved assertion for better readability
         assertEquals("test", retrievedOperator.getFname());
 
         // Verify interaction with the mocked repository
