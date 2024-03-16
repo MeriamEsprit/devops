@@ -39,7 +39,6 @@ private OperatorServiceImpl service;
         assertEquals(1L, retrievedOperator.getIdOperateur()); // Improved assertion for better readability
         assertEquals("test", retrievedOperator.getFname());
 
-        // Verify interaction with the mocked repository
         Mockito.verify(repository, Mockito.times(1)).findById(1L);
 
     }
