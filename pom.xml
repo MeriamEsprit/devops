@@ -78,14 +78,6 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
     </dependencies>
-    <distributionManagement>
-        <snapshotRepository>
-            <id>nexus-snapshots</id>
-            <url>http://your-nexus-url/repository/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
-
-    
     <build>
         <plugins>
             <plugin>
@@ -102,5 +94,12 @@
             </plugin>
         </plugins>
     </build>
-
+    <!-- Deploy to Nexus -->
+    <distributionManagement>
+        <repository>
+            <id>deploymentRepo</id>
+            <name>Nexus Repository</name>
+            <url>http://192.168.33.10:8081/repository/maven-snapshots/</url>
+        </repository>
+    </distributionManagement>
 </project>
