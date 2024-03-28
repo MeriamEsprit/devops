@@ -20,7 +20,7 @@
         <profile>
             <id>main</id>
 <!--
-            <activation><activeByDefault>true</activeByDefault></activation>
+            <activation><activeByDefault>true</0.>32</activation>
 -->
         </profile>
         <profile>
