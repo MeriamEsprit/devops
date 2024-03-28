@@ -21,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 class ProductServiceImplTest {
 
-
     @Autowired
     private IProductService iProductService;
 
@@ -34,7 +33,7 @@ class ProductServiceImplTest {
     @Test
     public void testAddProduct() {
 
-        Stock stock = new Stock(1L,"BERSHKA",null);
+        Stock stock = new Stock(100L,"BERSHKA",null);
         Stock savedStock = stockRepository.save(stock);
 
         assertNotNull(savedStock);
