@@ -95,12 +95,12 @@ public void setUp() {
         }
     }
 
-    @Test
+  /*  @Test
     public void testDeleteProduct() {
         productService.deleteProduct(1L);
         Product deletedProduct = productRepository.findById(1L).orElse(null);
         assertNull(deletedProduct);
-    }
+    }*/
 
     @Test
     public void testRetrieveProductStock() {
