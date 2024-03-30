@@ -43,6 +43,7 @@ public void setUp() {
 
     // Create and save a product for testing
     Product product = new Product();
+    product.setIdProduct(1L);
     product.setTitle("Test Product");
     product.setPrice(10.0f);
     product.setQuantity(100);
