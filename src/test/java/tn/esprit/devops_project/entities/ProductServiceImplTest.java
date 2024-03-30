@@ -30,7 +30,7 @@ class ProductServiceImplTest {
 
     @Autowired
     private ProductRepository productRepository;
-/
+
 @BeforeEach
 public void setUp() {
     // Create and save a stock for testing
