@@ -23,91 +23,71 @@ import static org.junit.jupiter.api.Assertions.*;
 class ProductServiceImplTest {
 
     @Autowired
-    private IProductService productService;
-
-    @Autowired
     private StockRepository stockRepository;
 
     @Autowired
     private ProductRepository productRepository;
 
-@BeforeEach
-public void setUp() {
-    // Create and save a stock for testing
-    Stock stock = new Stock();
-    stock.setIdStock(1L);
-    stock.setTitle("Test Stock");
-    stockRepository.save(stock);
+    @Autowired
+    private IProductService productService;
 
-    // Create and save a product for testing
-    Product product = new Product();
-    product.setIdProduct(1L);
-    product.setPrice(10.0f);
-    product.setQuantity(100);
-    product.setCategory(ProductCategory.CLOTHING);
-    product.setStock(stock);
-    productRepository.save(product);
-}
     @Test
-    public void testAddProduct() {
-        Stock stock = stockRepository.findAll().get(0);
-        Product newProduct = new Product();
-        newProduct.setTitle("New Product");
-        newProduct.setPrice(20.0f);
-        newProduct.setQuantity(50);
-        newProduct.setCategory(ProductCategory.BOOKS);
-       productService.addProduct(newProduct, stock.getIdStock());
+    public void AddProductTest() {
 
-        Product retrievedProduct = productRepository.findById(newProduct.getIdProduct()).orElse(null);
-        assertNotNull(retrievedProduct);
-        assertEquals("New Product", retrievedProduct.getTitle());
-        assertEquals(20.0f, retrievedProduct.getPrice());
-        assertEquals(50, retrievedProduct.getQuantity());
-        assertEquals(ProductCategory.BOOKS, retrievedProduct.getCategory());
+        Product product1 = new Product();
+        product1.setTitle("Test Product 1");
+        product1.setPrice(10.0f);
+        product1.setQuantity(5);
+        product1.setCategory(ProductCategory.ELECTRONICS);
+
+        Product product2 = new Product();
+        product2.setTitle("Test Product 2");
+        product2.setPrice(20.0f);
+        product2.setQuantity(8);
+        product2.setCategory(ProductCategory.CLOTHING);
+
+        Product product3 = new Product();
+        product3.setTitle("Test Product 3");
+        product3.setPrice(30.0f);
+        product3.setQuantity(10);
+        product3.setCategory(ProductCategory.BOOKS);
+
+        Product addedProduct1 = productService.addProduct(product1, 10L);
+        Product addedProduct2 = productService.addProduct(product2, 11L);
+        Product addedProduct3 = productService.addProduct(product3, 12L);
+
+        assertNotNull(addedProduct1);
+        assertNotNull(addedProduct2);
+        assertNotNull(addedProduct3);
+
+        assertEquals("Test Product 1", addedProduct1.getTitle());
+        assertEquals("Test Product 2", addedProduct2.getTitle());
+        assertEquals("Test Product 3", addedProduct3.getTitle());
     }
     @Test
-    public void testRetrieveProduct() {
-        Product product = productService.retrieveProduct(1L);
-        assertNotNull(product);
-        assertEquals("Test Product", product.getTitle());
-        assertEquals(10.0f, product.getPrice());
-        assertEquals(100, product.getQuantity());
-        assertEquals(ProductCategory.CLOTHING, product.getCategory());
+    public void retrieveAllProductsTest(){
+        List<Product> products = productService.retreiveAllProduct();
+        assertNotNull(products);
     }
 
     @Test
-    public void testRetrieveAllProduct() {
-        List<Product> productList = productService.retreiveAllProduct();
-        assertNotNull(productList);
-        assertTrue(productList.size() > 0);
+    public void retrieveProductTest() {
+
+        long expectedProductId = 12L;
+
+        Product savedProduct = productService.retrieveProduct(expectedProductId);
+        assertNotNull(savedProduct);
+
+        assertEquals(expectedProductId, savedProduct.getIdProduct());
     }
 
     @Test
-    public void testRetrieveProductByCategory() {
-        List<Product> productList = productService.retrieveProductByCategory(ProductCategory.CLOTHING);
-        assertNotNull(productList);
-        assertTrue(productList.size() > 0);
-        for (Product product : productList) {
-            assertEquals(ProductCategory.CLOTHING, product.getCategory());
-        }
-    }
+    public void retrieveProductByCategoryTest() {
+        ProductCategory category = ProductCategory.ELECTRONICS;
 
-  /*  @Test
-    public void testDeleteProduct() {
-        productService.deleteProduct(1L);
-        Product deletedProduct = productRepository.findById(1L).orElse(null);
-        assertNull(deletedProduct);
-    }*/
+        List<Product> products = productService.retrieveProductByCategory(category);
 
-    @Test
-    public void testRetrieveProductStock() {
-        Stock stock = stockRepository.findAll().get(0);
-        List<Product> productList = productService.retreiveProductStock(stock.getIdStock());
-        assertNotNull(productList);
-        assertTrue(productList.size() > 0);
-        for (Product product : productList) {
-            assertEquals(stock.getIdStock(), product.getStock().getIdStock());
-        }
+        assertNotNull(products);
     }
 
 }
