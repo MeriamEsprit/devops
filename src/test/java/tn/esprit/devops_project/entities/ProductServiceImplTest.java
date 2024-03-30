@@ -3,8 +3,6 @@ package tn.esprit.devops_project.entities;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import tn.esprit.devops_project.entities.Product;
@@ -13,7 +11,6 @@ import tn.esprit.devops_project.entities.Stock;
 import tn.esprit.devops_project.repositories.ProductRepository;
 import tn.esprit.devops_project.repositories.StockRepository;
 import tn.esprit.devops_project.services.Iservices.IProductService;
-import tn.esprit.devops_project.services.ProductServiceImpl;
 
 
 import java.util.ArrayList;
@@ -22,8 +19,9 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @ActiveProfiles("test")
-
 class ProductServiceImplTest {
+
+
 
     @Autowired
     private StockRepository stockRepository;
@@ -74,10 +72,14 @@ class ProductServiceImplTest {
     }
 
     @Test
-    public void retrieveProductTest(){
-        Product savedProduct = productService.retrieveProduct(17L);
+    public void retrieveProductTest() {
+
+        long expectedProductId = 17L;
+
+        Product savedProduct = productService.retrieveProduct(expectedProductId);
         assertNotNull(savedProduct);
-        assertEquals(17L,17L);
+
+        assertEquals(expectedProductId, savedProduct.getIdProduct());
     }
 
     @Test
@@ -88,8 +90,5 @@ class ProductServiceImplTest {
 
         assertNotNull(products);
     }
-
-
-
 
 }
