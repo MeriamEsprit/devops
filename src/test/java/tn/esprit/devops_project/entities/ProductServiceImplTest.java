@@ -33,6 +33,9 @@ class ProductServiceImplTest {
 
 @BeforeEach
 public void setUp() {
+    // Clear the Product and Stock tables before each test
+    productRepository.deleteAll();
+    stockRepository.deleteAll();
     // Create and save a stock for testing
     Stock stock = new Stock();
     stock.setTitle("Test Stock");
