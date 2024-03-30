@@ -1,5 +1,7 @@
 package tn.esprit.devops_project.entities;
-
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.times;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,22 +26,24 @@ private OperatorRepository repository;
 @InjectMocks
 private OperatorServiceImpl service;
     @Test
-    public void retrieveOperator_ValidId_OperatorReturned(){
-        Operator operator = new Operator();
-        operator.setIdOperateur(1L);
-        operator.setFname("test");
+    public void testAddOperator(){
+        Operator operatorToAdd = new Operator();
+        operatorToAdd.setIdOperateur(1L);
+        operatorToAdd.setFname("John");
+        operatorToAdd.setLname("Doe");
+        operatorToAdd.setPassword("password");
 
-        Mockito.when(repository.findById(1L)).thenReturn(Optional.of(operator));
+        Mockito.when(repository.save(any(Operator.class))).thenReturn(operatorToAdd);
+//        Mockito.when(repository.findById(1L)).thenReturn(Optional.of(operatorToAdd));
 
-        // Act
-        Operator retrievedOperator = service.retrieveOperator(1L);
+        Operator addedOperator = service.addOperator(operatorToAdd);
 
-        // Assert
-        assertNotNull(retrievedOperator);
-        assertEquals(1L, retrievedOperator.getIdOperateur()); // Improved assertion for better readability
-        assertEquals("test", retrievedOperator.getFname());
+        assertEquals(operatorToAdd.getIdOperateur(), addedOperator.getIdOperateur());
+        assertEquals(operatorToAdd.getFname(), addedOperator.getFname());
+        assertEquals(operatorToAdd.getLname(), addedOperator.getLname());
+        assertEquals(operatorToAdd.getPassword(), addedOperator.getPassword());
 
-        Mockito.verify(repository, Mockito.times(1)).findById(1L);
+        verify(repository, times(1)).save(any(Operator.class));
 
     }
 }
