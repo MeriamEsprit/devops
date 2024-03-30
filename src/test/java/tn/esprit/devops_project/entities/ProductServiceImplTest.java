@@ -23,45 +23,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class ProductServiceImplTest {
 
     @Autowired
-    private IProductService iProductService;
+    private IProductService productService;
 
     @Autowired
     private StockRepository stockRepository;
 
     @Autowired
     private ProductRepository productRepository;
-//
-//    @Test
-//    public void testAddProduct() {
-//
-//        Stock stock = new Stock(100L,"BERSHKA",null);
-//        Stock savedStock = stockRepository.save(stock);
-//
-//        assertNotNull(savedStock);
-            /*Product product = new Product(6L,"T-shirt",320,50,ProductCategory.CLOTHING,null);
-        Product savedProduct = iProductService.addProduct(product, 1L);
-        //productRepository.save(savedProduct);
-        Stock savedStock = stockRepository.findById(savedProduct.getStock().getIdStock()).orElse(null);
-        assertNotNull(savedStock);
-        assertNotNull(savedProduct);
-        Product retrievedProduct = productRepository.findById(savedProduct.getIdProduct()).orElse(null);
-        */
-
-
-//    }
-   /* @Test
-    public void retrieveAllProducts(){
-        List<Product> products = iProductService.retreiveAllProduct();
-        assertNotNull(products);
-    }
-
-    @Test
-    public void retrieveProduct(){
-        Product savedProduct = iProductService.retrieveProduct(1L);
-        assertNotNull(savedProduct);
-        assertEquals(1L,1L);
-    }
-*/
+/
 @BeforeEach
 public void setUp() {
     // Create and save a stock for testing
@@ -85,16 +54,59 @@ public void setUp() {
         newProduct.setTitle("New Product");
         newProduct.setPrice(20.0f);
         newProduct.setQuantity(50);
-        newProduct.setCategory(ProductCategory.CLOTHING);
-        iProductService.addProduct(newProduct, stock.getIdStock());
+        newProduct.setCategory(ProductCategory.BOOKS);
+       productService.addProduct(newProduct, stock.getIdStock());
 
         Product retrievedProduct = productRepository.findById(newProduct.getIdProduct()).orElse(null);
         assertNotNull(retrievedProduct);
         assertEquals("New Product", retrievedProduct.getTitle());
         assertEquals(20.0f, retrievedProduct.getPrice());
         assertEquals(50, retrievedProduct.getQuantity());
-        assertEquals(ProductCategory.CLOTHING, retrievedProduct.getCategory());
+        assertEquals(ProductCategory.BOOKS, retrievedProduct.getCategory());
+    }
+    @Test
+    public void testRetrieveProduct() {
+        Product product = productService.retrieveProduct(1L);
+        assertNotNull(product);
+        assertEquals("Test Product", product.getTitle());
+        assertEquals(10.0f, product.getPrice());
+        assertEquals(100, product.getQuantity());
+        assertEquals(ProductCategory.CLOTHING, product.getCategory());
     }
 
+    @Test
+    public void testRetrieveAllProduct() {
+        List<Product> productList = productService.retreiveAllProduct();
+        assertNotNull(productList);
+        assertTrue(productList.size() > 0);
+    }
+
+    @Test
+    public void testRetrieveProductByCategory() {
+        List<Product> productList = productService.retrieveProductByCategory(ProductCategory.CLOTHING);
+        assertNotNull(productList);
+        assertTrue(productList.size() > 0);
+        for (Product product : productList) {
+            assertEquals(ProductCategory.CLOTHING, product.getCategory());
+        }
+    }
+
+    @Test
+    public void testDeleteProduct() {
+        productService.deleteProduct(1L);
+        Product deletedProduct = productRepository.findById(1L).orElse(null);
+        assertNull(deletedProduct);
+    }
+
+    @Test
+    public void testRetrieveProductStock() {
+        Stock stock = stockRepository.findAll().get(0);
+        List<Product> productList = productService.retreiveProductStock(stock.getIdStock());
+        assertNotNull(productList);
+        assertTrue(productList.size() > 0);
+        for (Product product : productList) {
+            assertEquals(stock.getIdStock(), product.getStock().getIdStock());
+        }
+    }
 
 }
